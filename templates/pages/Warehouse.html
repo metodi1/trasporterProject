@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <div>
+        <form method="post" action="{% url 'warehouse page' %}">
+
+            {{ form }}
+            {% csrf_token %}
+            <button type="submit">Добави към списъка на склада</button>
+        </form>
+    </div>
+    <h1>Склад</h1>
+
+    <table class="table table-striped w-auto">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">Material</th>
+            <th scope="col">Warehouse Address</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td>{{ object.material_warehouse }}</td>
+                <td>{{ object.address_warehouse }}</td>
+                <td><a href="{% url 'warehouse page edit' pk=object.pk %}" class="details-btn">Edit</a></td>
+                <td><a href="{% url 'warehouse page delete' pk=object.pk %}" class="delete-btn">Delete</a></td>
+            </tr>
+        {% endfor %}
+        <tr>
+        </tbody>
+    </table>
+{% endblock %}

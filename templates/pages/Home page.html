@@ -1,0 +1,98 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css'
+          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <!--Chart js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+            integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
+          integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous"/>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <title>Transporter Application</title>
+
+</head>
+
+
+{% block page_content %}
+    <h1 class="home-h1">
+        Home page
+    </h1>
+    {% if request.user.is_authenticated %}
+        <ul class="nav bg-black w-auto">
+            <li class="nav-item w-auto">
+                <form method="post"> {% csrf_token %}
+                    <button type="submit" name="line" value="zzz"
+                            class="btn btn-primary bg-success overflow-hidden"> Orders by lines
+                    </button>
+
+                </form>
+            </li>
+            <li>
+                <form method="post"> {% csrf_token %}
+                    <button type="submit" name="transporter" value="zzz"
+                            class="btn btn-primary bg-success overflow-hidden"> Orders by transporter
+                    </button>
+                </form>
+            </li>
+            <li>
+                <form method="post"> {% csrf_token %}
+                    <button type="submit" name="end_date" value="zzz"
+                            class="btn btn-primary bg-success overflow-hidden"> Orders by end date
+                    </button>
+                </form>
+            </li>
+        </ul>
+
+        {#    готово    #}
+        <h1>{{ statistic_name }} Statistic</h1>
+        <div class="chart-container" style="position: relative; height:200px; width:auto">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            const ctx = document.getElementById('myChart');
+            new Chart(ctx, {
+
+                data: {
+                    labels: [{% for item in unique_labels %},'{{ item }}', {% endfor %}],
+                    datasets: [{
+                        type: 'bar',
+                        label: 'отворени поръчки',
+                        data: [{% for item in open_orders_table.values %},{{ item }}, {% endfor %}],
+                        borderWidth: 1,
+                    },
+                        {
+                            type: 'bar',
+                            label: 'затворени поръчки',
+                            data: [{% for item in closed_orders_table.values %},{{ item }}, {% endfor %}],
+                            borderWidth: 1,
+                        }],
+
+                },
+                options: {
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            beginAtZero: true,
+                            stacked: true
+                        }
+                    }
+                }
+            });
+        </script>
+    {% endif %}
+{% endblock %}
+
+

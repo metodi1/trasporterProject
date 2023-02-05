@@ -1,0 +1,33 @@
+<ul class="nav bg-black w-auto">
+    <li class="nav-item w-auto">
+        <a class="nav-link" href="{% url 'home page' %}">Home</a>
+    </li>
+    {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'warehouse page' %}">Warehouse</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'lines catalog' %}">Line catalog</a>
+        </li>
+        <li class="nav-item">
+            {#        <a class="nav-link"  href="{% url 'task' %}">Task</a>#}
+            {#        <a class="nav-link"  href="{% url 'task' %}">Task</a>#}
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'details transporter' request.user.pk %}">Details transporter</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'details transporter' request.user.pk %}">{{ request.user.username }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link float" href="{% url 'logout transporter' %}">Logout form</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'register transporter' %}">Registration form</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'login transporter' %}">Login form</a>
+        </li>
+    {% endif %}
+</ul>

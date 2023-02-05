@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <h1>Transporter {{ object.username }} details </h1>
+    <div class="profile">
+        <div class="profile-data">
+            {% if object.profile_image %}
+                <img src="{{ object.profile_image.url }}" class="img-responsive"
+                     alt="Responsive image" width="103.3" height="101.6">
+            {% else %}
+                <img src="{% static 'images/default user.png' %}" class="img-responsive"
+                     alt="Responsive image" width="103.3" height="101.6">
+            {% endif %}
+            <div class="personal">
+                <div class="edit">
+                    <p>User name:<b>{{ object.username }}</b></p>
+                    {% if object.get_full_name %}
+                        <h3 class="names">Име: {{ object.get_full_name }}</h3>
+                    {% else %}
+                        <h3>No name</h3>
+                    {% endif %}
+                    {% if is_owner %}
+                        <a href="{% url 'edit transporter' pk=object.pk %}">
+                            <img class="edit-img" src="{% static 'images/edit-pen-icon-6.jpg' %}"
+                                 alt="edit button" width="103.3" height="101.6">
+                        </a>
+
+                        <a href="{% url 'delete transporter' pk=object.pk %}">
+                            <img class="bin-img" src="{% static 'images/x-delete-button-png-14.png' %}" alt="delete button" width="103.3" height="101.6">
+                        </a>
+                    {% endif %}
+                    {#                </div>#}
+                    {#                <div class="data">#}
+                    {#                    <span>{{ photos_count }}</span>#}
+                    {#                    <p>photos</p>#}
+                    {##}
+                    {#                    <!-- Total Number of Pets owned by the User -->#}
+                    {#                    <span>{{ pets_count }}</span>#}
+                    {#                    <p>pets</p>#}
+                    {##}
+                    {#                    <!-- Total Number of Likes for the User -->#}
+                    {#                    <span>{{ likes_count }}</span>#}
+                    {#                    <p>likes</p>#}
+                    {#                </div>#}
+                </div>
+            </div>
+
+
+        </div>
+        <!-- End Profile Details Section -->
+    </div>
+{% endblock %}

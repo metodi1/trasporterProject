@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load placeholders %}
+
+{% block page_content %}
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <div class="edit-delete">
+        <h2>Edit line name</h2>
+        <form method="post" action="{% url 'lines catalog edit' pk=object.pk %}">
+            {% for field in form %}
+                <p class="error"> {{ field.errors }} </p>
+                <div class="label-input">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                <br>
+            {% endfor %}
+
+            <button class="edit-btn" type="submit">Edit</button>
+            {% csrf_token %}
+            <br>
+            <br>
+            <a class="edit-btn" href="javascript:history.back()">Go Back</a>
+        </form>
+    </div>
+{% endblock %}

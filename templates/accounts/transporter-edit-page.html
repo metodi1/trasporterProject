@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <div class="edit-delete">
+        <h2>Edit Transporter</h2>
+        <form method="post" action="{% url 'edit transporter' pk=object.pk %}" enctype="multipart/form-data">
+            {% for field in form %}
+                <p class="error"> {{ field.errors }} </p>
+                <div class="label-input">
+                    <label>{{ field.label }}</label>
+
+                    {{ field }}
+
+
+                </div>
+                <br>
+            {% endfor %}
+
+            <button class="edit-btn" type="submit">Запази промените</button>
+            {% csrf_token %}
+        </form>
+        <a href="{% url 'delete transporter' pk=object.pk %}">
+            <img class="bin-img" src="{% static 'images/x-delete-button-png-14.png' %}" alt="delete button"
+                 width="103.3" height="101.6">
+        </a>
+    </div>
+{% endblock %}

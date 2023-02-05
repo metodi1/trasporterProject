@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load placeholders %}
+
+{% block page_content %}
+
+    <div>
+        <form method="POST" action="{% url 'production line' pk=get_line_name.pk %}">
+            {{ form.material_line|placeholder:"Сканирай номера на материала" }}
+            {{ form.address_line|placeholder:"Напиши адреса на линията" }}
+            {% csrf_token %}
+            <button type="submit">Добави</button>
+        </form>
+    </div>
+    <h1>{{ get_line_name }}</h1>
+
+                <a class="edit-btn" href="{% url 'lines catalog' %}">Go Back</a>
+    <br>
+    <br>
+    <table class="table table-striped w-auto">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">Material</th>
+            <th scope="col">Working post</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for m in line_materials %}
+            <tr>
+                <td>{{ m.material_line }}</td>
+                <td>{{ m.address_line }}</td>
+                <td><a href="{% url 'production line edit' pk=m.pk %}" class="details-btn">Edit</a></td>
+                <td><a href="{% url 'production line delete' pk=m.pk %}" class="details-btn">Delete</a></td>
+            </tr>
+
+        {% endfor %}
+        <tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <h1>Task Line: {{ get_line_name }}</h1>
+    <ul class="nav bg-black w-25">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'lines catalog' %}">Go back to Line catalog</a>
+        </li>
+    </ul>
+    <div>
+        <form method="post" action="{% url 'task page' pk=get_line_name.pk %}">
+            {{ form }}
+            {% csrf_token %}
+            <button type="submit">Добави към списъка на задачите</button>
+        </form>
+    </div>
+    <table class="table table-striped w-auto">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">Task number</th>
+            <th scope="col">S number</th>
+            <th scope="col">Start time</th>
+            <th scope="col">Адрес в склада</th>
+            <th scope="col">Работен пост</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if tasks_list %}
+            {% for t in tasks_list %}
+                <tr>
+                    <td>{{ t.id }}</td>
+                    <td>{{ t.s_number }}</td>
+                    <td>{{ t.start_time| time:'H:i' }}</td>
+                    {#                 Статус дали е взето от линията#}
+                    <td>
+                        {% if t.status_warehouse == False %}
+                            <form method="post"> {% csrf_token %}
+                                <button type="submit" name="warehouse-done"
+                                        value={{ t.id }} href="{% url 'task page' pk=get_line_name.pk %}"
+                                        class="btn btn-primary bg-gradient overflow-hidden"> {{ t.warehouse_address }}</button>
+                            </form>
+                        {% else %}
+                            <form method="post"> {% csrf_token %}
+                                <button type="submit"
+                                        class="btn btn-primary bg-success overflow-hidden"> {{ t.warehouse_address }}</button>
+                            </form>
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {% if t.status_line == False %}
+                            <form method="post"> {% csrf_token %}
+                                <button type="submit" name="done"
+                                        value={{ t.id }} href="{% url 'task page' pk=get_line_name.pk %}"
+                                        class="btn btn-primary bg-gradient overflow-hidden"> {{ t.line_address }}</button>
+                            </form>
+                        {% else %}
+                            <form method="post"> {% csrf_token %}
+                                <button type="submit"
+                                        class="btn btn-primary bg-success overflow-hidden"> {{ t.line_address }}</button>
+                            </form>
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+            {% endfor %}
+            <tr>
+        {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

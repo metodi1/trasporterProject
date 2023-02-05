@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <ul class="nav bg-black w-auto">
+        <li class="nav-item w-auto">
+            <form method="post"> {% csrf_token %}
+                <button type="submit" name="line" value="line"
+                        class="btn btn-primary bg-success overflow-hidden">Total orders by lines
+                </button>
+
+            </form>
+        </li>
+        <li>
+            <form method="post"> {% csrf_token %}
+                <button type="submit" name="transporter" value="transporter"
+                        class="btn btn-primary bg-success overflow-hidden">Total orders by transporter
+                </button>
+            </form>
+        </li>
+        <li>
+            <form method="post"> {% csrf_token %}
+                <button type="submit" name="end_date" value="end_date"
+                        class="btn btn-primary bg-success overflow-hidden">Total orders by end date
+                </button>
+            </form>
+        </li>
+    </ul>
+
+
+    <h1>{{ statistic_name }} Statistic</h1>
+    <div class="chart-container" style="position: relative; height:200px; width:auto">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+
+            data: {
+                labels: [{% for item in open_orders_table.keys %},'{{ item }}', {% endfor %}],
+                datasets: [{
+                    type: 'bar',
+                    label: 'отворени поръчки',
+                    data: [{% for item in open_orders_table.values %},{{ item }}, {% endfor %}],
+                    borderWidth: 1,
+                    backgroundColor: 'red',
+                },
+                    {
+                        type: 'bar',
+                        label: 'затворени поръчки',
+                        data: [{% for item in closed_orders_table.values %},{{ item }}, {% endfor %}],
+                        borderWidth: 1,
+                        backgroundColor: 'green',
+                    }],
+
+            },
+            options: {
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        beginAtZero: true,
+                        stacked: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    {% include 'statistic/Statistics Transporters.html' %}
+
+
+{% endblock %}

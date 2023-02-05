@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load placeholders %}
+
+{% block page_content %}
+
+    <!-- Start Delete Section -->
+    <div class="delete-profile">
+        <h1>
+            Are you sure you want to delete<br>
+            material: {{ object.material_warehouse }}<br>
+            on address: {{ object.address_warehouse }}?
+        </h1>
+        <div class="sure-buttons">
+            <form method="post" action="{% url 'warehouse page delete' pk=object.pk %}">
+
+                <button>Yes</button>
+                {% csrf_token %}
+                <br>
+                <br>
+                <a class="edit-btn" href="javascript:history.back()">Go Back</a>
+            </form>
+        </div>
+
+    </div>
+    <!-- End Delete Profile Section -->
+{% endblock %}

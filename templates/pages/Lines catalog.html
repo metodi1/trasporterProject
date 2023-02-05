@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+
+    <div>
+        <form method="post" action="{% url 'lines catalog' %}">
+
+            {{ form }}
+            {% csrf_token %}
+            <button type="submit">Добави линия към каталога</button>
+        </form>
+    </div>
+
+    <table class="table table-striped w-auto">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">Line details</th>
+            <th scope="col">Line tasks</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td><a href="{% url 'production line' pk=object.pk %}" class="details-btn">{{ object.line_name }}</a>
+                </td>
+                <td><a href="{% url 'task page' pk=object.pk %}" class="details-btn">Line task</a></td>
+                <td><a href="{% url 'lines catalog edit' pk=object.pk %}" class="details-btn">Edit</a></td>
+                <td><a href="{% url 'lines catalog delete' pk=object.pk %}" class="delete-btn">Delete</a></td>
+            </tr>
+        {% endfor %}
+        <tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}

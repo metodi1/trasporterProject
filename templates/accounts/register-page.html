@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+{% load placeholders %}
+
+    <div class="login-register-div">
+        <div class="login-register-box">
+            <h1>Transporter registration page</h1>
+
+            <form method="post" action="{% url 'register transporter' %}">
+                {{ form.username|placeholder:'Username: ' }}
+                {{ form.password1|placeholder:'Password: ' }}
+                {{ form.password2|placeholder:'Repeat password: ' }}
+                <button type="submit">Register</button>
+                {% csrf_token %}
+            </form>
+
+        </div>
+        <div class="second-option">
+{#            <p>Have an account? <a href="{% url 'login user' %}">Log in</a></p>#}
+        </div>
+    </div>
+
+{% endblock %}
