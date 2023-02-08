@@ -8,7 +8,8 @@ class Task(models.Model):
         ordering = ['id']
 
     s_number = models.CharField(max_length=9)
-    transporter = models.CharField(max_length=30)
+    transporter_open_task = models.CharField(max_length=30)
+    transporter_close_task = models.CharField(max_length=30)
     line = models.CharField(max_length=30)
     status_line = models.BooleanField(default=False)
     status_warehouse = models.BooleanField(default=False)

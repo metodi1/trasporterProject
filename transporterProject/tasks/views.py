@@ -23,7 +23,7 @@ def Task_view(request, pk):
         form = TaskForm(request.POST)
         if form.is_valid():
             form_task = form.save(commit=False)
-            form_task.transporter = request.user
+            form_task.transporter_open_task = request.user
             form_task.line = get_line_name.line_name
             form_task.save()
             form = form
@@ -72,6 +72,7 @@ def Task_view(request, pk):
         if done:
             t = Task.objects.get(id=done)
             t.status_warehouse = True
+            t.transporter_close_task = request.user
             t.save()
             return redirect(request.META['HTTP_REFERER'])
 
@@ -80,6 +81,7 @@ def Task_view(request, pk):
         if done1:
             t = Task.objects.get(id=done1)
             t.status_line = True
+            t.transporter_close_task = request.user
             t.save()
             return redirect(request.META['HTTP_REFERER'])
 

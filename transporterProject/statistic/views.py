@@ -34,9 +34,8 @@ def ChartLine(request):
         statistic_name = 'Orders by lines'
 
     if request.POST.get('transporter'):
-        what = 'transporter'
+        what = 'transporter_close_task'
         statistic_name = 'Total orders by transporter'
-        print('transporter')
 
     if request.POST.get('end_date'):
         what = 'end_date'
@@ -57,16 +56,16 @@ def ChartLine(request):
 
 
     open_orders_table, closed_orders_table = data_orders_statistic(what)
-    transporter_open_orders, transporter_closed_orders = data_orders_statistic('transporter')
+    transporter_open_orders, transporter_closed_orders = data_orders_statistic('transporter_close_task')
 
     for transporter in transporter_closed_orders:
         liker_list = []
         for_print_obj = Transporter_statistic_closed()
 
-        for_print_obj.today_closed_orders = Task.objects.filter(transporter=transporter,
+        for_print_obj.today_closed_orders = Task.objects.filter(transporter_close_task=transporter,
                                                                 status_line=True, status_warehouse=True,
                                                                 end_date=datetime.today()).count()
-        for_print_obj.total_closed_orders = Task.objects.filter(transporter=transporter,
+        for_print_obj.total_closed_orders = Task.objects.filter(transporter_close_task=transporter,
                                                                 status_line=True, status_warehouse=True,
                                                                 ).count()
 

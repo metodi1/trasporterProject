@@ -7,8 +7,6 @@ from django.utils import timezone
 
 from django.views.generic import View, ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import ModelFormMixin, UpdateView, DeleteView
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from transporterProject.common.forms import Add_Warehouse_address, Material_production_line_positions, \
     Add_Lines

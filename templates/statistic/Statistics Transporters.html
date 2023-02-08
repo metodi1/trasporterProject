@@ -9,7 +9,9 @@
         <th scope="col">Transporter name</th>
         <th scope="col">Today closed orders</th>
         <th scope="col">Today likes</th>
+        <th scope="col">Like?</th>
         <th scope="col">Total likes</th>
+        <th scope="col">Total closed orders</th>
     </tr>
     </thead>
     <tbody>
@@ -19,14 +21,14 @@
             <td class="text-center">{{ obj.transporter }}</td>
             <td class="text-center">{{ obj.today_closed_orders }}</td>
             <td class="text-center">{{ obj.today_likes }}</td>
-            <td class="text-center">{{ obj.total_likes }}</td>
+
 
             <td class="text-center">
                 {% if obj.transporter == request.user.username %}
-{#                    {{ 'сегащният транспортер' }}#}
+                    {#                    {{ 'сегащният транспортер' }}#}
                 {% else %}
                     {% if obj.curren_user_like %}
-{#                        {{ 'сегашният юсер го е харесал' }}#}
+                        {#                        {{ 'сегашният юсер го е харесал' }}#}
                         <form method="post"> {% csrf_token %}
                         <button type="submit" name="button-like" value="{{ obj.transporter }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red"
@@ -38,7 +40,7 @@
 
 
                     {% else %}
-{#                        {{ 'не го е харесал' }}#}
+                        {#                        {{ 'не го е харесал' }}#}
                         <div class="xsss">
                             <form method="post"> {% csrf_token %}
                                 <button type="submit" name="button-like" value="{{ obj.transporter }}">
@@ -56,6 +58,8 @@
                 {% endif %}
 
             </td>
+            <td class="text-center">{{ obj.total_likes }}</td>
+            <td class="text-center">{{ obj.total_closed_orders }}</td>
 
 
         </tr>
